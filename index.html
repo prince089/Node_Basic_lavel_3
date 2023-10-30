@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TaskApp">
+<head>
+     <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+   ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    ></script>
+  <meta charset="UTF-8">
+  <title>Task List</title>
+</head>
+<body ng-controller="TaskController">
+
+  <!-- filter -->
+  <!-- <div style="text-align:center ;" class="my-3"> -->
+    <!-- search -->
+    Search Here: <input type="text" ng-model="search" >
+
+    <!-- asending desending -->
+    Order: <select ng-model="SortOrder" class="text-center">
+        <option value="+TaskName">Asc</option>
+        <option value="-TaskName">Desc</option>
+    </select>
+    <!-- </div> -->
+
+    <!-- dropdown select -->
+    <!-- <div class="container my-4" style="text-align: center;"> -->
+      <label for="selection1">
+          Select Status :
+      </label>
+      <select name="selection1" ng-model="selectCourse">
+          <option value="{{task}}">All</option>
+          <option ng-repeat="task in tasks">{{task.TaskStatus}}</option>
+      </select>
+    <!-- </div> -->
+
+
+    <!-- Add new task form -->
+  <h2 align="center">Add</h2>
+  <form ng-submit="addTask()">
+    <table align="center" class="table-bordered table-hover" >
+        <tr>
+          <td>ID:- <input type="text" name="id" ng-model="newTask.TaskId"></td>
+        </tr>
+        <tr>
+            <td>Name:- <input type="text" name="name" ng-model="newTask.TaskName"></td>
+        </tr>
+        <tr>
+            <td>Status:- <input type="text" name="status" ng-model="newTask.TaskStatus"></td>
+        </tr>
+        
+        <tr>
+            <td align="center"><button  class="btn btn-success"  type="submit">Submit</button></td>
+        </tr>
+    </table></form>
+
+
+
+
+  <h1 align="center">View</h1>
+  
+  <!-- Display tasks -->
+  <table class="table table-success table-bordered">
+    <tr ng-repeat="task in tasks | filter: selectCourse | orderBy:SortOrder | filter:search">
+  
+      <td>{{ task.TaskName}}</td> 
+      <td>{{ task.TaskStatus }}</td> 
+      <td>{{task._id}}</td>
+          
+      <td><button class="btn btn-warning" ng-click="editTask(task)">Edit</button></td> 
+      <td><button class="btn btn-danger" ng-click="deleteTask(task._id)">Delete</button></td>
+    
+    </tr>
+
+  </table>
+  
+  
+  <!-- Edit task form -->
+  <div ng-show="editingTask">
+    <h2 align="center">Edit Task</h2>
+    <form class="form form-control" ng-submit="updateTask()">
+      <label>Name:</label>
+      <input type="text" ng-model="editingTask.TaskName" required>
+      <label>Status:</label>
+      <input type="text" ng-model="editingTask.TaskStatus" required>
+      <button class="btn btn-warning" type="submit">Update</button>
+      <button class="btn btn-secondary" ng-click="cancelEdit()">Cancel</button>
+    </form>
+  </div>
+
+  <script src="angular.js"></script>
+  <script src="appctrl.js"></script>
+</body>
+</html>
